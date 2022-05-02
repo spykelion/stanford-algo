@@ -36,7 +36,7 @@ def buildGraphFromFile(_file):
     graph = {}
     f = open(_file)
     for l in f:
-        items = map(int, l.split())
+        items = list(map(int, l.split()))
         vertex = items[0]
         edges = items[1:len(items)]
         graph[vertex] = edges
@@ -68,7 +68,7 @@ def computeMinimunCut(graph):
     # calculate union of the two edges lists
     # we are only contracting one edge at a time
     # this edge is (v,v_to_merge)
-    final_edges = filter(lambda x: x!= v and x!=v_to_merge, list(edges1 + edges2 ))
+    final_edges = list(filter(lambda x: x!= v and x!=v_to_merge, list(edges1 + edges2)))
 
     # delete original vertexes
     del graph[v]
@@ -91,7 +91,7 @@ def computeMinimunCut(graph):
     return computeMinimunCut(graph)
 
 
-graph = buildGraphFromFile("min_cut.txt")
+graph = buildGraphFromFile(sys.argv[1])
 #print graph
 
 # start number of crossing edges to 2m, m being number of vertexes
@@ -104,7 +104,7 @@ minimun_cut = graph
 while i > 0:
     _graph = copy.deepcopy(graph)
     local_minimum = computeMinimunCut(_graph)
-    keys = local_minimum.keys();
+    keys = list(local_minimum.keys())
     local_min_crossing_edges = len(local_minimum[keys[0]])
     # now count crossing edges
     if crossing_edges > local_min_crossing_edges:
@@ -113,5 +113,5 @@ while i > 0:
     i = i - 1
 
 
-print ("crossing edges {0}"). format(crossing_edges)
+print (crossing_edges)
 print (minimun_cut)
